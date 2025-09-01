@@ -10,4 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "get_next_line.h"
 
+
+void	free_all(char *stash, char *buffer)
+{
+	if (stash && *stash)
+	{
+		free(*stash);
+		stash = NULL;
+	}
+	if (buffer && *buffer)
+	{
+		free(*buffer);
+		buffer = NULL;
+	}
+}
