@@ -26,3 +26,13 @@ void	free_all(char *stash, char *buffer)
 		buffer = NULL;
 	}
 }
+
+char	*get_next_line(int fd)
+{
+	t_gnl_node	*new_node;
+
+	
+	new_node = ft_calloc(sizeof(t_gnl_node));
+	if (!new_node)
+		return (NULL);
+}

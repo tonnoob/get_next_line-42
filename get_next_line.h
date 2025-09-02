@@ -13,10 +13,17 @@
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-#include <unistd.h>
-#include <fcntl.h>
-#include <stdlib.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include <stdlib.h>
 
+# define BUFFER_SIZE 42
 
+typedef struct s_gnl_node
+{
+	int					fd;
+	char				*stash;
+	struct s_gnl_node	*next;
+}	t_gnl_node;
 
 #endif

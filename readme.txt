@@ -1,10 +1,1 @@
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
- eiusmod tempor incididunt ut labore et dolore magna 
- aliqua. Ut enim ad minim 
- veniam, 
- quis 
- nostrud
-  exercitation 
-  ullamco laboris nisi ut aliquip ex ea commodo consequat. 
- Duis aute irure dolor in 
- reprehenderit.
+A guerra é uma das atividades mais importantes de um Estado, pois dela depende a sobrevivência ou a ruína de um povo. Por isso, deve ser estudada com seriedade, avaliando cuidadosamente cada fator que influencia o resultado. Entre os principais elementos estão: a moral, que une governante e povo em torno de um propósito comum; o clima e o terreno, que podem favorecer ou dificultar movimentos; a liderança, que exige sabedoria, coragem e disciplina; e a organização, que garante obediência e eficácia. Antes de agir, é necessário comparar essas condições entre os lados em conflito, identificando quem possui mais força, quem inspira maior lealdade, quem tem melhor preparo. Aquele que souber calcular e avaliar com clareza terá mais chances de vencer, mesmo diante de dificuldades. Assim, a guerra deve ser conduzida com estratégia, nunca com improviso ou excesso de confiança, pois a preparação cuidadosa é a base para superar o inimigo.
