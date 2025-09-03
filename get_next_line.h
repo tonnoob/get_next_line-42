@@ -26,4 +26,12 @@ typedef struct s_gnl_node
 	struct s_gnl_node	*next;
 }	t_gnl_node;
 
+char	*ft_strdup(const char *s);
+size_t	ft_strlen(const char *str);
+char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strchr(const char *s, int c);
+void	*ft_calloc(size_t nmemb, size_t size);
+
+
+
 #endif
