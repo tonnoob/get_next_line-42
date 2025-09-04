@@ -13,15 +13,24 @@
 #include "get_next_line.h"
 
 
-void	free_all(char *buffer, char *buf)
+void	free_all(t_gnl_node	*node)
 {
-	char	*temp;
+	int	i;
 
-	if (buffer && *buffer)
+	i = 0;
+	while (node != NULL)
 	{
-		free(*buffer);
+		next = node->next;
+		free(node->stash)
+	}
+
+	if (!buffer->stash && !buffer)
+	{
+		free(buffer->stash);
+		free()
 		buffer = NULL;
 	}
+
 }
 
 char	*get_next_line(int fd)
@@ -40,38 +49,49 @@ char	*get_next_line(int fd)
 	
 }
 
-char	*return_line(char *stash)
+char	*extract_line(t_gnl_node *buf)
 {
+
 	int		i;
 	int		j;
 	char	*line;
 
 	i = 0;
-	if (!stash)
-	{
-		line = ft_strdup("");
-		return (line);
-	}
-	while (stash[i] && stash[i] != '\n')
+	if (!buf || !buf->stash)
+		return (NULL);
+	while (buf->stash[i] && buf->stash[i] != '\n')
 		i++;
-	if (stash[i] == '\n')
+	if (buf->stash[i] == '\n')
 		line = ft_calloc(i + 2, sizeof(char));
 	else
 		line = ft_calloc(i + 1, sizeof(char));
 	j = 0;
 	while (j < i)
 	{
-		line[j] = stash[j];
+		line[j] = buf->stash[j];
 		j++;
 	}
-	if (stash[i] = '\n')
+	if (buf->stash[i] == '\n')
 	{
-		line[i] = '\n';
+		line[j] = '\n';
 		j++;
 	}
-	line[j] = '\0'; 
+	line[j] = '\0';
 	return (line);
 }
 
-// jhkjasghd\n
-//          i
+char	*extract_after_n(t_gnl_node *buf)
+{
+	int		i;
+	int		j;
+	char	*new_stash;
+
+	if (!buf || !buf->stash)
+		return (NULL);
+	i = 0;
+	while (buf->stash[i] != '\n' && buf->stash[i])
+		i++;
+	j = 0;
+	while (buf->stash[i] == '\n' && buf->stash[i + j]);
+
+}
