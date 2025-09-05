@@ -12,46 +12,31 @@
 
 #include "get_next_line.h"
 
-
-void	free_all(t_gnl_node	*node)
-{
-	int	i;
-
-	i = 0;
-	while (node != NULL)
-	{
-		next = node->next;
-		free(node->stash)
-	}
-
-	if (!buffer->stash && !buffer)
-	{
-		free(buffer->stash);
-		free()
-		buffer = NULL;
-	}
-
-}
-
 char	*get_next_line(int fd)
 {
-	t_gnl_node	*new_node;
-	char	*buffer;
-	char	*stash;
-
+	static t_gnl_node	*head;
+	char				*buffer;	
+	t_gnl_node			*current;
+	size_t				bytes_read;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	rest = read(fd, buffer, BUFFER_SIZE);
-	new_node = ft_calloc(sizeof(t_gnl_node));
-	if (!new_node)
-		return (NULL);
-	
+	if (!head)
+		head = create_node(fd);
+	current = head;
+	while (current->fd != fd && current->next)
+		current = current->next;
+	if (current->fd != fd)
+	{
+		current->next = create_node(fd);
+		current = current->next;
+	}
+
+		
 }
 
 char	*extract_line(t_gnl_node *buf)
 {
-
 	int		i;
 	int		j;
 	char	*line;
@@ -84,6 +69,7 @@ char	*extract_after_n(t_gnl_node *buf)
 {
 	int		i;
 	int		j;
+	size_t	size;
 	char	*new_stash;
 
 	if (!buf || !buf->stash)
@@ -91,7 +77,42 @@ char	*extract_after_n(t_gnl_node *buf)
 	i = 0;
 	while (buf->stash[i] != '\n' && buf->stash[i])
 		i++;
+	if (buf->stash[i] == '\0')
+	{
+		free(buf->stash);
+		buf->stash = NULL;
+		return (NULL);
+	}
+	size = ft_strlen(buf->stash) - (i + 1);
+	new_stash = ft_calloc(size + 1, sizeof(char));
 	j = 0;
-	while (buf->stash[i] == '\n' && buf->stash[i + j]);
+	while (j < size)
+		new_stash[j++] = buf->stash[i++];
+	return (new_stash);
+}
 
+t_gnl_node	*create_node(int fd)
+{
+	t_gnl_node	*new_node;
+
+	new_node = ft_calloc(1, sizeof(t_gnl_node));
+	if (!new_node)
+		return (NULL);
+	new_node->fd = fd;
+	new_node->stash = NULL;
+	new_node->next = NULL;
+	return (new_node);
+}
+
+void	free_all(t_gnl_node	*node)
+{
+	t_gnl_node	*addr_next;
+
+	while (node != NULL)
+	{
+		addr_next = node->next;
+		free(node->stash);
+		free(node);
+		node = addr_next;
+	}
 }
