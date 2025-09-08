@@ -12,20 +12,83 @@
 
 #include "get_next_line.h"
 
-size_t	ft_strlen_chr(const char *s, char c, int *pos)
+size_t	ft_strlen(const char *s)
 {
-	int		i;
+	size_t	i;
 
 	i = 0;
-	if (pos)
-		*pos = -1;
+	if (!s)
+		return (0);
 	while (s[i])
 	{
-		if (s[i] == c && *pos == -1)
-			*pos = i;
 		i++;
 	}
 	return (i);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == c)
+			return ((char *)&s[i]);
+		i++;
+	}
+	if (s[i] == (char)c)
+		return (char *)&s[i];
+	return (NULL);
+}
+
+char	*ft_strdup(const char *s)
+{
+	int		i;
+	char	*new_str;
+
+	if (!s)
+		return (NULL);
+	new_str = ft_calloc(ft_strlen(s) + 1, sizeof(char));
+	if (!new_str)
+		return (NULL);
+	i = 0;
+	while (s[i])
+	{
+		new_str[i] = s[i];
+		i++;
+	}
+	return (new_str);
+}
+
+char	*ft_strjoin(char *s1, char *s2)
+{
+	int		i;
+	int		j;
+	size_t	size;
+	char	*new_str;
+
+	i = 0;
+	if (!s1)
+		s1 = ft_strdup("");
+	if (!s2)
+		s2 = ft_strdup("");
+	size = (ft_strlen(s1) + ft_strlen(s2));
+	new_str = calloc(size + 1, sizeof(char));
+	while (s1[i])
+	{
+		new_str[i] = s1[i];
+		i++;
+	}
+	j = 0;
+	while (s2[j])
+	{
+		new_str[i] = s2[j];
+		i++;
+		j++;
+	}
+	free(s1);
+	return (new_str);
 }
 
 void	*ft_calloc(size_t nmemb, size_t size)
@@ -51,30 +114,30 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	return (ptr);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_substr(const char *s, unsigned int start, size_t size)
 {
 	int		i;
-	int		j;
-	char	*str;
-	size_t	size_s1;
-	size_t	size_s2;
+	int		min;
+	char	*substr;
 
-	size_s1 = ft_strlen_chr(s1 ? s1 : "", '\0', NULL);
-	size_s2 = ft_strlen_chr(s2 ? s2 : "", '\0', NULL);
-	str = ft_calloc(size_s1 + size_s2 + 1, sizeof(char));
-	if (!str)
+	if (!s)
 		return (NULL);
+	if (start >= ft_strlen(s))
+		return (ft_strdup(""));
+	substr = ft_calloc(size + 1, sizeof(char));
+	if (!substr)
+		return (NULL);
+	min = (ft_strlen(s) - start);
+	if (min > size)
+		min = size;
 	i = 0;
-	while (i < size_s1)
+	while (i < min)
 	{
-		str[i] = s1 ? s1[i] : '\0';
+		substr[i] = s[start];
+		start++;
 		i++;
 	}
-	j = 0;
-	while (j < size_s2)
-		str[i++] = s2 ? s2[j++] : '\0';
-	free(s1);
-	return (str);
+	return (substr);
 }
 
 char	*extract_after_n(t_gnl_node *buf)
