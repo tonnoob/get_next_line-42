@@ -26,12 +26,10 @@ typedef struct s_gnl_node
 	struct s_gnl_node	*next;
 }	t_gnl_node;
 
-char	*ft_strdup(const char *s);
-size_t	ft_strlen(const char *str);
+char	*extract_line(t_gnl_node *buf);
 char	*ft_strjoin(char *s1, char *s2);
-char	*ft_strchr(const char *s, int c);
+char	*extract_after_n(t_gnl_node *buf);
 void	*ft_calloc(size_t nmemb, size_t size);
-
-
+size_t	ft_strlen_chr(const char *s, char c, int *pos);
 
 #endif

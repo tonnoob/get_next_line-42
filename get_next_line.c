@@ -15,80 +15,49 @@
 char	*get_next_line(int fd)
 {
 	static t_gnl_node	*head;
+	char				*line;
 	char				*buffer;	
 	t_gnl_node			*current;
 	size_t				bytes_read;
-
+ 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (!head)
-		head = create_node(fd);
-	current = head;
-	while (current->fd != fd && current->next)
-		current = current->next;
-	if (current->fd != fd)
+	current = get_node(&head, fd);
+	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	bytes_read = read(fd, buffer, BUFFER_SIZE);
+	while (bytes_read > 0)
 	{
-		current->next = create_node(fd);
-		current = current->next;
+		current->stash = ft_strjoin(current->stash, buffer);
+		if (ft_strchr(current->stash, '\n') != NULL)
+			break;
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
 	}
-
-		
-}
-
-char	*extract_line(t_gnl_node *buf)
-{
-	int		i;
-	int		j;
-	char	*line;
-
-	i = 0;
-	if (!buf || !buf->stash)
-		return (NULL);
-	while (buf->stash[i] && buf->stash[i] != '\n')
-		i++;
-	if (buf->stash[i] == '\n')
-		line = ft_calloc(i + 2, sizeof(char));
-	else
-		line = ft_calloc(i + 1, sizeof(char));
-	j = 0;
-	while (j < i)
-	{
-		line[j] = buf->stash[j];
-		j++;
-	}
-	if (buf->stash[i] == '\n')
-	{
-		line[j] = '\n';
-		j++;
-	}
-	line[j] = '\0';
+	line = extract_line(current);
+	tmp = extract_after_n(current);
+	free(current->stash);
+	current->stash = tmp;
+	free(buffer);
 	return (line);
 }
 
-char	*extract_after_n(t_gnl_node *buf)
+t_gnl_node *get_node(t_gnl_node **head, int fd)
 {
-	int		i;
-	int		j;
-	size_t	size;
-	char	*new_stash;
+	t_gnl_node	*current;
 
-	if (!buf || !buf->stash)
+	if (!fd)
 		return (NULL);
-	i = 0;
-	while (buf->stash[i] != '\n' && buf->stash[i])
-		i++;
-	if (buf->stash[i] == '\0')
+	if (!*head)
 	{
-		free(buf->stash);
-		buf->stash = NULL;
-		return (NULL);
+		*head = create_node(fd);
+		return (*head);
 	}
-	size = ft_strlen(buf->stash) - (i + 1);
-	new_stash = ft_calloc(size + 1, sizeof(char));
-	j = 0;
-	while (j < size)
-		new_stash[j++] = buf->stash[i++];
-	return (new_stash);
+	current = *head;
+	while (current->fd != fd && current->next)
+		current = current->next;
+	if (current->fd == fd)
+		return (current);
+	current->next = create_node(fd);
+	return (current->next);
 }
 
 t_gnl_node	*create_node(int fd)
@@ -102,17 +71,4 @@ t_gnl_node	*create_node(int fd)
 	new_node->stash = NULL;
 	new_node->next = NULL;
 	return (new_node);
-}
-
-void	free_all(t_gnl_node	*node)
-{
-	t_gnl_node	*addr_next;
-
-	while (node != NULL)
-	{
-		addr_next = node->next;
-		free(node->stash);
-		free(node);
-		node = addr_next;
-	}
 }

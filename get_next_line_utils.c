@@ -12,16 +12,20 @@
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *str)
+size_t	ft_strlen_chr(const char *s, char c, int *pos)
 {
-	size_t	count;
+	int		i;
 
-	count = 0;
-	while (str[count])
+	i = 0;
+	if (pos)
+		*pos = -1;
+	while (s[i])
 	{
-		count++;
-	}	
-	return (count);
+		if (s[i] == c && *pos == -1)
+			*pos = i;
+		i++;
+	}
+	return (i);
 }
 
 void	*ft_calloc(size_t nmemb, size_t size)
@@ -29,7 +33,6 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	int				i;
 	unsigned char	*p;
 	void			*ptr;
-
 
 	if (nmemb == 0 || size == 0)
 		return (malloc(1));
@@ -52,61 +55,80 @@ char	*ft_strjoin(char *s1, char *s2)
 {
 	int		i;
 	int		j;
-	char	*strcat;
-	size_t	total_size;
+	char	*str;
+	size_t	size_s1;
+	size_t	size_s2;
 
-	if (!s1)
-		s1 = ft_strdup("");
-	if (!s2)
-		s2 = ft_strdup("");
-	total_size = (ft_strlen(s1) + ft_strlen(s2));
-	strcat = (char *)ft_calloc(total_size + 1, sizeof(char));
+	size_s1 = ft_strlen_chr(s1 ? s1 : "", '\0', NULL);
+	size_s2 = ft_strlen_chr(s2 ? s2 : "", '\0', NULL);
+	str = ft_calloc(size_s1 + size_s2 + 1, sizeof(char));
+	if (!str)
+		return (NULL);
 	i = 0;
-	while (s1[i])
+	while (i < size_s1)
 	{
-		strcat[i] = s1[i];
+		str[i] = s1 ? s1[i] : '\0';
 		i++;
 	}
 	j = 0;
-	while (s2[j])
-	{
-		strcat[i + j] = s2[j];
-		j++;
-	}
-	return (strcat);
+	while (j < size_s2)
+		str[i++] = s2 ? s2[j++] : '\0';
+	free(s1);
+	return (str);
 }
 
-char	*ft_strdup(const char *s)
+char	*extract_after_n(t_gnl_node *buf)
 {
 	int		i;
+	int		j;
 	size_t	size;
-	char	*new_str;
+	char	*new_stash;
 
-	if (!s)
+	if (!buf || !buf->stash)
 		return (NULL);
 	i = 0;
-	size = ft_strlen(s);
-	new_str = ft_calloc(size + 1, sizeof(char));
-	while (s[i])
-	{
-		new_str[i] = s[i];
+	while (buf->stash[i] != '\n' && buf->stash[i])
 		i++;
+	if (buf->stash[i] == '\0')
+	{
+		free(buf->stash);
+		buf->stash = NULL;
+		return (NULL);
 	}
-	return (new_str);
+	size = ft_strlen(buf->stash) - (i + 1);
+	new_stash = ft_calloc(size + 1, sizeof(char));
+	j = 0;
+	while (j < size)
+		new_stash[j++] = buf->stash[i++];
+	return (new_stash);
 }
 
-char	*ft_strchr(const char *s, int c)
+char	*extract_line(t_gnl_node *buf)
 {
-	int i;
+	int		i;
+	int		j;
+	char	*line;
 
 	i = 0;
-	while (s[i])
-	{
-		if (s[i] == (unsigned char)c)
-			return ((char *)&s[i]);
+	if (!buf || !buf->stash)
+		return (NULL);
+	while (buf->stash[i] && buf->stash[i] != '\n')
 		i++;
+	if (buf->stash[i] == '\n')
+		line = ft_calloc(i + 2, sizeof(char));
+	else
+		line = ft_calloc(i + 1, sizeof(char));
+	j = 0;
+	while (j < i)
+	{
+		line[j] = buf->stash[j];
+		j++;
 	}
-	if ((unsigned char)c =='\0')
-		return ((char *)&s[i]);
-	return (NULL);
+	if (buf->stash[i] == '\n')
+	{
+		line[j] = '\n';
+		j++;
+	}
+	line[j] = '\0';
+	return (line);
 }
