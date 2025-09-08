@@ -14,61 +14,102 @@
 
 char	*get_next_line(int fd)
 {
-	static t_gnl_node	*head;
-	char				*line;
+	static char			*stash;
 	char				*buffer;	
-	t_gnl_node			*current;
+	char				*line;
 	size_t				bytes_read;
- 
+
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	current = get_node(&head, fd);
 	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	bytes_read = read(fd, buffer, BUFFER_SIZE);
-	while (bytes_read > 0)
-	{
-		current->stash = ft_strjoin(current->stash, buffer);
-		if (ft_strchr(current->stash, '\n') != NULL)
-			break;
-		bytes_read = read(fd, buffer, BUFFER_SIZE);
-	}
-	line = extract_line(current);
-	tmp = extract_after_n(current);
-	free(current->stash);
-	current->stash = tmp;
+	stash = (accumulate_stash(fd, stash));
+	if (!stash)
+		return (NULL);
+	line = extract_line(stash);
+	stash = extract_after_n(stash);
 	free(buffer);
 	return (line);
 }
 
-t_gnl_node *get_node(t_gnl_node **head, int fd)
+char	*extract_after_n(char *stash)
 {
-	t_gnl_node	*current;
+	int		i;
+	int		j;
+	size_t	size;
+	char	*new_stash;
 
-	if (!fd)
+	if (!stash)
 		return (NULL);
-	if (!*head)
+	i = 0;
+	while (stash[i] != '\n' && stash[i])
+		i++;
+	if (stash[i] == '\0')
 	{
-		*head = create_node(fd);
-		return (*head);
+		free(stash);
+		stash = NULL;
+		return (NULL);
 	}
-	current = *head;
-	while (current->fd != fd && current->next)
-		current = current->next;
-	if (current->fd == fd)
-		return (current);
-	current->next = create_node(fd);
-	return (current->next);
+	size = ft_strlen(stash) - (i + 1);
+	new_stash = ft_calloc(size + 1, sizeof(char));
+	j = 0;
+	while (j < size)
+		new_stash[j++] = stash[i++];
+	return (new_stash);
 }
 
-t_gnl_node	*create_node(int fd)
+char	*extract_line(char *buffer)
 {
-	t_gnl_node	*new_node;
+	int		i;
+	int		j;
+	char	*line;
 
-	new_node = ft_calloc(1, sizeof(t_gnl_node));
-	if (!new_node)
+	i = 0;
+	if (!buffer)
 		return (NULL);
-	new_node->fd = fd;
-	new_node->stash = NULL;
-	new_node->next = NULL;
-	return (new_node);
+	while (buffer[i] && buffer[i] != '\n')
+		i++;
+	if (buffer[i] == '\n')
+		line = ft_calloc(i + 2, sizeof(char));
+	else
+		line = ft_calloc(i + 1, sizeof(char));
+	j = 0;
+	while (j < i)
+	{
+		line[j] = buffer[j];
+		j++;
+	}
+	if (buffer[i] == '\n')
+		line[j++] = '\n';
+	line[j] = '\0';
+	return (line);
+}
+
+char	*accumulate_stash(int fd, char *stash)
+{
+	char	*buffer;
+	size_t	bytes_read;
+
+	if (fd < 0)
+		return (NULL);
+	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	bytes_read = read(fd, buffer, BUFFER_SIZE);
+	if (bytes_read == -1)
+	{
+		free (buffer);
+		return (NULL);
+	}
+	while (bytes_read > 0)
+	{
+		stash = ft_strjoin(stash, buffer);
+		if (ft_strchr(stash, '\n') != NULL)
+			break ;
+		bytes_read = read(fd, buffer, BUFFER_SIZE);
+		if (bytes_read == -1)
+		{
+			free (buffer);
+			return (NULL);
+		}
+	}
+	free(buffer);
+	return (stash);
 }
