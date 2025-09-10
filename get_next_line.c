@@ -17,12 +17,11 @@ char	*get_next_line(int fd)
 	static char			*stash;
 	char				*buffer;	
 	char				*line;
-	size_t				bytes_read;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	stash = (accumulate_stash(fd, stash));
+	stash = accumulate_stash(fd, stash, buffer);
 	if (!stash)
 		return (NULL);
 	line = extract_line(stash);
@@ -84,32 +83,31 @@ char	*extract_line(char *buffer)
 	return (line);
 }
 
-char	*accumulate_stash(int fd, char *stash)
+char	*accumulate_stash(int fd, char *stash, char	*buffer)
 {
-	char	*buffer;
 	size_t	bytes_read;
+	char	*tmp;
 
-	if (fd < 0)
-		return (NULL);
-	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	bytes_read = read(fd, buffer, BUFFER_SIZE);
-	if (bytes_read == -1)
-	{
-		free (buffer);
-		return (NULL);
-	}
+	bytes_read = 1;
 	while (bytes_read > 0)
 	{
-		stash = ft_strjoin(stash, buffer);
-		if (ft_strchr(stash, '\n') != NULL)
-			break ;
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read == -1)
 		{
 			free (buffer);
 			return (NULL);
 		}
+		else if (bytes_read == 0)
+			break ;
+		buffer[bytes_read] = 0;
+		if (!stash)
+			stash = ft_strdup("");
+		tmp = stash;
+		stash = ft_strjoin(tmp, buffer);
+		free(tmp);
+		tmp = NULL;
+		if (ft_strchr(stash, '\n') != NULL)
+			break ;
 	}
-	free(buffer);
 	return (stash);
 }
