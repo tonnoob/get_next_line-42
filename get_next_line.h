@@ -17,7 +17,9 @@
 # include <fcntl.h>
 # include <stdlib.h>
 
-# define BUFFER_SIZE 42
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 
 typedef struct s_gnl_node
 {

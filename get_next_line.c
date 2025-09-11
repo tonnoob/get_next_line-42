@@ -12,29 +12,11 @@
 
 #include "get_next_line.h"
 
-char	*get_next_line(int fd)
-{
-	static char			*stash;
-	char				*buffer;	
-	char				*line;
-
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
-	stash = accumulate_stash(fd, stash, buffer);
-	if (!stash)
-		return (NULL);
-	line = extract_line(stash);
-	stash = extract_after_n(stash);
-	free(buffer);
-	return (line);
-}
-
 char	*extract_after_n(char *stash)
 {
 	int		i;
 	int		j;
-	size_t	size;
+	int		size;
 	char	*new_stash;
 
 	if (!stash)
@@ -85,29 +67,53 @@ char	*extract_line(char *buffer)
 
 char	*accumulate_stash(int fd, char *stash, char	*buffer)
 {
-	size_t	bytes_read;
-	char	*tmp;
+	long unsigned int	bytes_read;
+	char				*tmp;
 
 	bytes_read = 1;
 	while (bytes_read > 0)
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read == -1)
-		{
-			free (buffer);
 			return (NULL);
-		}
 		else if (bytes_read == 0)
 			break ;
 		buffer[bytes_read] = 0;
 		if (!stash)
+		{
 			stash = ft_strdup("");
+			if (!stash)
+				return (NULL);
+		}
 		tmp = stash;
 		stash = ft_strjoin(tmp, buffer);
-		free(tmp);
 		tmp = NULL;
 		if (ft_strchr(stash, '\n') != NULL)
 			break ;
 	}
 	return (stash);
+}
+
+char	*get_next_line(int fd)
+{
+	static char			*stash;
+	char				*buffer;	
+	char				*line;
+
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (!buffer)
+		return (NULL);
+	stash = accumulate_stash(fd, stash, buffer);
+	if (!stash)
+	{
+		free(stash);
+		stash = NULL;
+		return (NULL);
+	}
+	line = extract_line(stash);
+	stash = extract_after_n(stash);
+	free(buffer);
+	return (line);
 }
