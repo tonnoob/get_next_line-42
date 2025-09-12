@@ -67,7 +67,7 @@ char	*extract_line(char *buffer)
 
 char	*accumulate_stash(int fd, char *stash, char	*buffer)
 {
-	long unsigned int	bytes_read;
+	long int			bytes_read;
 	char				*tmp;
 
 	bytes_read = 1;

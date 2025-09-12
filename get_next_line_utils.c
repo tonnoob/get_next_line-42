@@ -89,9 +89,9 @@ char	*ft_strjoin(char *s1, char *s2)
 
 void	*ft_calloc(size_t nmemb, size_t size)
 {
-	int				i;
-	unsigned char	*p;
-	void			*ptr;
+	long unsigned int	i;
+	unsigned char		*p;
+	void				*ptr;
 
 	if (nmemb == 0 || size == 0)
 		return (malloc(1));

@@ -28,6 +28,7 @@ typedef struct s_gnl_node
 	struct s_gnl_node	*next;
 }	t_gnl_node;
 
+char	*get_next_line(int fd);
 size_t	ft_strlen(const char *s);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strdup(const char *s);
