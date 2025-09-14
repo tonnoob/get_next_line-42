@@ -14,10 +14,10 @@
 
 char	*extract_after_n(char *stash)
 {
-	int		i;
-	int		j;
-	int		size;
-	char	*new_stash;
+	long unsigned int		i;
+	long unsigned int		j;
+	size_t					size;
+	char					*new_stash;
 
 	if (!stash)
 		return (NULL);
