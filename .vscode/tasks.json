@@ -8,6 +8,8 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 "${file}",
+				"/nfs/homes/osousa-d/gnl-Github/get_next_line_utils.c",
+				"/nfs/homes/osousa-d/gnl-Github/get_next_line.c",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}"
             ],

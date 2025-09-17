@@ -35,79 +35,91 @@ char	*accumulate_stash(int fd, char *stash, char	*buffer)
 		if (bytes_read == -1)
 			return (NULL);
 		else if (bytes_read == 0)
-		{
-			free(stash);
-			stash = NULL;
 			break ;
-		}
 		buffer[bytes_read] = '\0';
 		if (!stash)
 			stash = ft_strdup("");	
 		stash = join_and_free(stash, buffer);
-		if (ft_strchr(stash, '\n') != NULL)
+		if (ft_strchr(stash, '\n'))
 			break ;
 	}
 	return (stash);
 }
 
-char	*extract_line(char *buffer)
+char	*extract_line(char *stash)
 {
 	int		i;
 	int		j;
 	char	*line;
 
 	i = 0;
-	if (!buffer)
+	if (!stash)
 		return (NULL);
-	while (buffer[i] && buffer[i] != '\n')
+	while (stash[i] && stash[i] != '\n')
 		i++;
-	if (buffer[i] && buffer[i] == '\n')
+	if (stash[i] && stash[i] == '\n')
 		line = ft_calloc(i + 2, sizeof(char));
 	else
 		line = ft_calloc(i + 1, sizeof(char));
 	j = 0;
 	while (j < i)
 	{
-		line[j] = buffer[j];
+		line[j] = stash[j];
 		j++;
 	}
-	if (buffer[i] == '\n')
+	if (stash[i] == '\n')
 		line[j++] = '\n';
 	return (line);
 }
 
 char	*extract_after_n(char *stash)
 {
-	int		i;
-	int		j;
-	char	*new_stash;
+	unsigned long	i;
+	unsigned long	j;
+	size_t			size_new_stash;
+	char			*new_stash;
 
 	if (!stash)
 		return (NULL);
-	i = 0;
-	while (stash[i] != '\n' && stash[i])
-		i++;
-	if (stash[i] == '\0')
-	{
-		free(stash);
-		stash = NULL;
-		return (NULL);
-	}
-	new_stash = ft_calloc((ft_strlen(stash) - (i + 1)) + 1, sizeof(char));
-	if (!new_stash)
-		return (NULL);
-	j = 0;
-	while (j < ft_strlen(stash) - (i + 1))
-		new_stash[j++] = stash[i++];
-	free(stash);
-	return (new_stash);
+	new_stash = ft_strchr(stash, '\n');
+	size_new_stash = ft_strlen(new_stash + 1);
+	new_stash = ft_calloc(size_new_stash + 2, sizeof(char));
+	ft_strdup(j)
+	return (new_stash)
 }
+
+// char	*extract_after_n(char *stash)
+// {
+// 	int				i;
+// 	unsigned long	j;
+// 	char			*new_stash;
+
+// 	if (!stash)
+// 		return (NULL);
+// 	i = 0;
+// 	while (stash[i] != '\n' && stash[i])
+// 		i++;
+// 	if (stash[i] == '\0')
+// 	{
+// 		stash = NULL;
+// 		return (NULL);
+// 	}
+// 	new_stash = ft_calloc((ft_strlen(stash) - (i)) + 1, sizeof(char));
+// 	if (!new_stash)
+// 		return (NULL);
+// 	i++;
+// 	j = 0;
+// 	while (j < (ft_strlen(stash) - (i)))
+// 		new_stash[j++] = stash[i++];
+// 	return (new_stash);
+// }
 
 char	*get_next_line(int fd)
 {
 	static char			*stash;
 	char				*buffer;	
 	char				*line;
+	char				*tmp_stash;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
@@ -121,7 +133,9 @@ char	*get_next_line(int fd)
 		return (NULL);
 	}
 	line = extract_line(stash);
-	stash = extract_after_n(stash);
+	tmp_stash = extract_after_n(stash);
+	free(stash);
+	stash = tmp_stash;
 	free(buffer);
 	return (line);
 }
