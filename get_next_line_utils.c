@@ -74,7 +74,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (!s2)
 		s2 = ft_strdup("");
 	size = (ft_strlen(s1) + ft_strlen(s2));
-	new_str = calloc(size + 1, sizeof(char));
+	new_str = ft_calloc(size + 1, sizeof(char));
 	while (s1[i])
 	{
 		new_str[i] = s1[i];
@@ -83,7 +83,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	j = 0;
 	while (s2[j])
 		new_str[i++] = s2[j++];
-	free(s1);
 	return (new_str);
 }
 
