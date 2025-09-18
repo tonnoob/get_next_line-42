@@ -21,13 +21,6 @@
 #  define BUFFER_SIZE 1000000
 # endif
 
-typedef struct s_gnl_node
-{
-	int					fd;
-	char				*stash;
-	struct s_gnl_node	*next;
-}	t_gnl_node;
-
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *s);
 char	*ft_strchr(const char *s, int c);

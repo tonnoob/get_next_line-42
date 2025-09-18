@@ -38,7 +38,7 @@ char	*accumulate_stash(int fd, char *stash, char	*buffer)
 			break ;
 		buffer[bytes_read] = '\0';
 		if (!stash)
-			stash = ft_strdup("");	
+			return (NULL);
 		stash = join_and_free(stash, buffer);
 		if (ft_strchr(stash, '\n'))
 			break ;
@@ -49,70 +49,45 @@ char	*accumulate_stash(int fd, char *stash, char	*buffer)
 char	*extract_line(char *stash)
 {
 	int		i;
-	int		j;
 	char	*line;
+	size_t	size_line;
 
-	i = 0;
 	if (!stash)
 		return (NULL);
-	while (stash[i] && stash[i] != '\n')
-		i++;
-	if (stash[i] && stash[i] == '\n')
-		line = ft_calloc(i + 2, sizeof(char));
-	else
-		line = ft_calloc(i + 1, sizeof(char));
-	j = 0;
-	while (j < i)
+	line = ft_strchr(stash, '\n');
+	if (line != NULL)
 	{
-		line[j] = stash[j];
-		j++;
+		size_line = line - stash + 1;
+		line = ft_calloc(size_line + 1, sizeof(char));
+		if (!line)
+			return (NULL);
+		i = 0;
+		while (i < size_line)
+		{
+			line[i] = stash[i];
+			i++;
+		}
 	}
-	if (stash[i] == '\n')
-		line[j++] = '\n';
+	else
+		line = ft_strdup(stash);
+	if (!line)
+		return (NULL);
 	return (line);
 }
 
 char	*extract_after_n(char *stash)
 {
-	unsigned long	i;
-	unsigned long	j;
-	size_t			size_new_stash;
-	char			*new_stash;
+	char	*new_stash;
+	char	*tmp;
 
 	if (!stash)
 		return (NULL);
-	new_stash = ft_strchr(stash, '\n');
-	size_new_stash = ft_strlen(new_stash + 1);
-	new_stash = ft_calloc(size_new_stash + 2, sizeof(char));
-	ft_strdup(j)
-	return (new_stash)
+	tmp = ft_strchr(stash, '\n');
+	if (!tmp)
+		return (NULL);
+	new_stash = ft_strdup(tmp + 1);
+	return (new_stash);
 }
-
-// char	*extract_after_n(char *stash)
-// {
-// 	int				i;
-// 	unsigned long	j;
-// 	char			*new_stash;
-
-// 	if (!stash)
-// 		return (NULL);
-// 	i = 0;
-// 	while (stash[i] != '\n' && stash[i])
-// 		i++;
-// 	if (stash[i] == '\0')
-// 	{
-// 		stash = NULL;
-// 		return (NULL);
-// 	}
-// 	new_stash = ft_calloc((ft_strlen(stash) - (i)) + 1, sizeof(char));
-// 	if (!new_stash)
-// 		return (NULL);
-// 	i++;
-// 	j = 0;
-// 	while (j < (ft_strlen(stash) - (i)))
-// 		new_stash[j++] = stash[i++];
-// 	return (new_stash);
-// }
 
 char	*get_next_line(int fd)
 {
