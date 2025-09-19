@@ -12,18 +12,6 @@
 
 #include "get_next_line.h"
 
-char	*join_and_free(char	*tmp_buffer, char *buffer)
-{
-	char	*new_buffer;
-
-	new_buffer = ft_strjoin(tmp_buffer, buffer);
-	if (!new_buffer)
-		return (NULL);
-	free(tmp_buffer);
-	tmp_buffer = NULL;
-	return (new_buffer);
-}
-
 char	*accumulate_stash(int fd, char *stash, char	*buffer)
 {
 	long int	bytes_read;
@@ -37,9 +25,9 @@ char	*accumulate_stash(int fd, char *stash, char	*buffer)
 		else if (bytes_read == 0)
 			break ;
 		buffer[bytes_read] = '\0';
+		stash = ft_strjoin(stash, buffer);
 		if (!stash)
 			return (NULL);
-		stash = join_and_free(stash, buffer);
 		if (ft_strchr(stash, '\n'))
 			break ;
 	}
@@ -48,9 +36,9 @@ char	*accumulate_stash(int fd, char *stash, char	*buffer)
 
 char	*extract_line(char *stash)
 {
-	int		i;
-	char	*line;
-	size_t	size_line;
+	unsigned long		i;
+	char				*line;
+	size_t				size_line;
 
 	if (!stash)
 		return (NULL);
@@ -83,7 +71,7 @@ char	*extract_after_n(char *stash)
 	if (!stash)
 		return (NULL);
 	tmp = ft_strchr(stash, '\n');
-	if (!tmp)
+	if (!tmp || (!*(tmp + 1)))
 		return (NULL);
 	new_stash = ft_strdup(tmp + 1);
 	return (new_stash);
