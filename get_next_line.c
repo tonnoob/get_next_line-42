@@ -3,14 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: osousa-d <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 18:33:17 by osousa-d          #+#    #+#             */
-/*   Updated: 2025/08/29 18:33:20 by osousa-d         ###   ########.fr       */
+/*   Updated: 2025/09/20 19:27:22 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+char	*ft_substr(char const *str, unsigned long start, size_t size)
+{
+	unsigned long	i;
+	char			*s;
+	size_t			len_s;
+
+	if (!str)
+		return (NULL);
+	if (start >= ft_strlen(str))
+		return (ft_strdup(""));
+	len_s = ft_strlen(str) - start;
+	if (len_s > size)
+		len_s = size;
+	s = ft_calloc(len_s + 1, sizeof(char));
+	i = 0;
+	while (i < len_s)
+	{
+		s[i] = str[start];
+		start++;
+		i++;
+	}
+	return (s);
+}
 
 char	*accumulate_stash(int fd, char *stash, char	*buffer)
 {
