@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: osousa-d <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/29 18:33:17 by osousa-d          #+#    #+#             */
-/*   Updated: 2025/08/29 18:33:20 by osousa-d         ###   ########.fr       */
+/*   Created: 2025/09/22 20:05:00 by osousa-d          #+#    #+#             */
+/*   Updated: 2025/09/22 20:05:08 by osousa-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*ft_substr(char const *str, unsigned long start, size_t size)
 {
