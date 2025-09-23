@@ -102,7 +102,7 @@ char	*extract_after_n(char *stash)
 
 char	*get_next_line(int fd)
 {
-	static char			*stash;
+	static char			*stash[MAX_FD];
 	char				*buffer;	
 	char				*line;
 	char				*tmp_stash;
@@ -112,16 +112,16 @@ char	*get_next_line(int fd)
 	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!buffer)
 		return (NULL);
-	stash = accumulate_stash(fd, stash, buffer);
-	if (!stash)
+	stash[fd] = accumulate_stash(fd, stash[fd], buffer);
+	if (!stash[fd])
 	{
 		free(buffer);
 		return (NULL);
 	}
-	line = extract_line(stash);
-	tmp_stash = extract_after_n(stash);
-	free(stash);
-	stash = tmp_stash;
+	line = extract_line(stash[fd]);
+	tmp_stash = extract_after_n(stash[fd]);
+	free(stash[fd]);
+	stash[fd] = tmp_stash;
 	free(buffer);
 	return (line);
 }

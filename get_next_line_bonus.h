@@ -18,14 +18,18 @@
 # include <stdlib.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10
+#  define BUFFER_SIZE 42
+# endif
+
+# ifndef MAX_FD
+#  define MAX_FD 1024
 # endif
 
 char	*get_next_line(int fd);
 size_t	ft_strlen(const char *s);
-char	*ft_strchr(const char *s, int c);
 char	*ft_strdup(const char *s);
 char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strchr(const char *s, int c);
 void	*ft_calloc(size_t nmemb, size_t size);
 
 #endif
