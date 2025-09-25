@@ -8,7 +8,6 @@ Permitindo a leitura do arquivo somente por blocos até a quebra de linha (\n) o
 A função deve retornar a linha completa, incluindo o \n quando existir.
 
 ---
-
 ### 🎯 Objetivo  
 - Escrever uma função que retorna uma linha lida de um file descriptor, respeitando algunas regras. 
 - Desenvolver melhor compreensão sobre manipulação de strings, macros (`BUFFER_SIZE`), organização de código, corrigir vazamentos de memórias e formatação de saída.  
