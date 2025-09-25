@@ -87,6 +87,10 @@ E se tudo estiver correto vai mostrar essa informação:
 
 ---
 
+### 🎁 Bônus
+
+Dentro da pasta project_with_bonus
+
 📅 **Período de desenvolvimento**  
 - Início: 02/09/2025  
 - Término: 24/09/2025  
