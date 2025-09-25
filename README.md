@@ -52,18 +52,23 @@ int main(void)
 Crie qualquer arquivo `.txt` dentro da pasta aonde está o projeto, com qualquer conteudo (não esqueça de dar enter para quebrar a linha).
 
 E coloque o nome do seu arquivo entre aspas nessa linha na main.c.
+
 ```int fd = open("teste.txt", O_RDONLY);```
 
 Para compilar, no terminal use o gcc com o BUFFER_SIZE definido. Exemplo:
+
 ```gcc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line.c get_next_line_utils.c main.c -o gnl```
 
 Depois de compilado rode:
+
 ```./gnl```
 
 Testar vazamento de memória:
+
 ```valgrind --leak-check=full --show-leak-kinds=all ./gnl```
 
 E se tudo estiver correto vai mostrar essa informação:
+
 ```All heap blocks were freed -- no leaks are possible```
 
 ---
@@ -129,12 +134,15 @@ int main(void)
 (não esqueça que nas linhas que possui "open("file1.txt", O_RDONLY);", colocar o nome do seu arquivo `.txt` que você quer exibir a linha)
 
 Agora compile:
+
 ```gcc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line_bonus.c get_next_line_utils_bonus.c main.c -o gnl_bonus```
 
 Executar normalmente:
+
 ```./gnl_bonus```
 
 Checar vazamentos de memória: 
+
 ```valgrind --leak-check=full --show-leak-kinds=all ./gnl_bonus```
 
 ---
