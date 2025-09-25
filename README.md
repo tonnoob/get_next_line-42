@@ -20,8 +20,12 @@ Retornando o (\n) dentro da linha.
 O projeto vem dividido em arquivos (se for o bônus vai ter (_bonus) no nome):
 
 get_next_line.c
+
 get_next_line_utils.c
+
 get_next_line.h
+
+---
 
 ### 🛠️ Crie sua Main.c
 
@@ -49,32 +53,32 @@ int main(void)
 
 Para compilar, no terminal use o gcc com o BUFFER_SIZE definido. Exemplo:
 
-gcc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line.c get_next_line_utils.c main.c -o gnl
+```gcc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line.c get_next_line_utils.c main.c -o gnl```
 
 Depois de compilado rode:
 
-./gnl
+```./gnl```
 
 Para verificar se há vazamentos de memoria:
 
-valgrind --leak-check=full --show-leak-kinds=all ./gnl
+```valgrind --leak-check=full --show-leak-kinds=all ./gnl```
 
 E se tudo estiver correto vai mostrar essa informação:
 
-All heap blocks were freed -- no leaks are possible
+```All heap blocks were freed -- no leaks are possible```
 
 
 ### ✅ Checklist de correção
 
- Compila sem erros (-Wall -Wextra -Werror)
+- Compila sem erros (-Wall -Wextra -Werror)
 
- Funciona com diferentes tamanhos de BUFFER_SIZE
+- Funciona com diferentes tamanhos de BUFFER_SIZE
 
- Lê arquivos de diferentes tamanhos
+- Lê arquivos de diferentes tamanhos
 
- Funciona em múltiplos FDs abertos ao mesmo tempo
+- Funciona em múltiplos FDs abertos ao mesmo tempo
 
- Não apresenta leaks de memória
+- Não apresenta leaks de memória
 
 ---
 
