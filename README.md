@@ -95,7 +95,6 @@ Ou seja, se você alternar entre fd3, fd4 e fd5, ela deve lembrar onde parou em 
 Dentro da pasta project_with_bonus tem o bônus do projeto, então agora faça uma main.c assim:
 ```
 #include "get_next_line.h"
-#include <fcntl.h>
 #include <stdio.h>
 
 int main(void)
