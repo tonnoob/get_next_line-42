@@ -29,7 +29,7 @@ get_next_line.h
 
 ### 🛠️ Crie sua Main.c
 
-📌 Aqui, o main.c é um arquivo de teste que você mesmo cria para chamar a função get_next_line.
+📌 Aqui, o main.c é um arquivo de teste que você mesmo cria para chamar a função get_next_line. (Dentro da pasta project)
 ```
 #include "get_next_line.h"
 #include <stdio.h>
@@ -89,7 +89,61 @@ E se tudo estiver correto vai mostrar essa informação:
 
 ### 🎁 Bônus
 
-Dentro da pasta project_with_bonus
+👉 Agora a get_next_line() precisa controlar separadamente o progresso de leitura de cada file descriptor.
+Ou seja, se você alternar entre fd3, fd4 e fd5, ela deve lembrar onde parou em cada arquivo, sem misturar linhas nem perder dados.
+
+Dentro da pasta project_with_bonus tem o bônus do projeto, então agora faça uma main.c assim:
+```
+#include "get_next_line.h"
+#include <fcntl.h>
+#include <stdio.h>
+
+int main(void)
+{
+    int fd1 = open("file1.txt", O_RDONLY);
+    int fd2 = open("file2.txt", O_RDONLY);
+    char *line1;
+    char *line2;
+
+    if (fd1 < 0 || fd2 < 0)
+        return (1);
+
+    while (1)
+    {
+        line1 = get_next_line(fd1);
+        line2 = get_next_line(fd2);
+
+        if (!line1 && !line2)
+            break;
+        if (line1)
+        {
+            printf("file1: %s", line1);
+            free(line1);
+        }
+        if (line2)
+        {
+            printf("file2: %s", line2);
+            free(line2);
+        }
+    }
+    close(fd1);
+    close(fd2);
+    return (0);
+}
+
+```
+(não esqueça que nas linhas que possui "open("file1.txt", O_RDONLY);" coloco o nome dos seus arquivos .txt)
+
+Agora compile:
+```gcc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line_bonus.c get_next_line_utils_bonus.c main.c -o gnl_bonus```
+
+Executar normalmente:
+```./gnl_bonus```
+
+Checar vazamentos de memória: 
+```valgrind --leak-check=full --show-leak-kinds=all ./gnl_bonus```
+
+---
 
 📅 **Período de desenvolvimento**  
 - Início: 02/09/2025  
