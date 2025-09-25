@@ -32,7 +32,6 @@ get_next_line.h
 📌 Aqui, o main.c é um arquivo de teste que você mesmo cria para chamar a função get_next_line.
 ```
 #include "get_next_line.h"
-#include <fcntl.h>
 #include <stdio.h>
 
 int main(void)
@@ -50,6 +49,11 @@ int main(void)
 }
 
 ```
+Crie qualquer arquivo .txt dentro da pasta aonde está o projeto, com qualquer conteudo (não esqueça de dar enter para quebrar a linha).
+
+E coloque o nome do seu arquivo entre aspas nessa linha na main.c.
+
+```int fd = open("teste.txt", O_RDONLY);```
 
 Para compilar, no terminal use o gcc com o BUFFER_SIZE definido. Exemplo:
 
@@ -67,6 +71,7 @@ E se tudo estiver correto vai mostrar essa informação:
 
 ```All heap blocks were freed -- no leaks are possible```
 
+---
 
 ### ✅ Checklist de correção
 
