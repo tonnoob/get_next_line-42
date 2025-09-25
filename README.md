@@ -3,9 +3,9 @@
 # Get_next_line-42  
 
 📌 **get_next_line**  
-O **get_next_line** é um projeto da 42 que tem como objetivo criar uma função que retornar, linha por linha, de um arquivo de texto (File descriptor - fd).  
-Permitindo a leitura do arquivo somente por blocos até a quebra de linha (\n) ou até o fim do arquivo (leu todos os caracteres do arquivo).
-Retornando o (\n) dentro da linha.
+O **get_next_line** é um projeto da 42 que tem como objetivo criar uma função que retorna, linha por linha, de um arquivo de texto (File descriptor - fd).
+Permitindo a leitura do arquivo somente por blocos até a quebra de linha (\n) ou até o fim do arquivo (quando todos os caracteres já foram lidos).
+A função deve retornar a linha completa, incluindo o \n quando existir.
 
 ---
 
@@ -19,11 +19,11 @@ Retornando o (\n) dentro da linha.
 
 O projeto vem dividido em arquivos (se for o bônus vai ter (_bonus) no nome):
 
-get_next_line.c
+`get_next_line.c`
 
-get_next_line_utils.c
+`get_next_line_utils.c`
 
-get_next_line.h
+`get_next_line.h`
 
 ---
 
@@ -49,26 +49,21 @@ int main(void)
 }
 
 ```
-Crie qualquer arquivo .txt dentro da pasta aonde está o projeto, com qualquer conteudo (não esqueça de dar enter para quebrar a linha).
+Crie qualquer arquivo `.txt` dentro da pasta aonde está o projeto, com qualquer conteudo (não esqueça de dar enter para quebrar a linha).
 
 E coloque o nome do seu arquivo entre aspas nessa linha na main.c.
-
 ```int fd = open("teste.txt", O_RDONLY);```
 
 Para compilar, no terminal use o gcc com o BUFFER_SIZE definido. Exemplo:
-
 ```gcc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line.c get_next_line_utils.c main.c -o gnl```
 
 Depois de compilado rode:
-
 ```./gnl```
 
-Para verificar se há vazamentos de memoria:
-
+Testar vazamento de memória:
 ```valgrind --leak-check=full --show-leak-kinds=all ./gnl```
 
 E se tudo estiver correto vai mostrar essa informação:
-
 ```All heap blocks were freed -- no leaks are possible```
 
 ---
@@ -131,7 +126,7 @@ int main(void)
 }
 
 ```
-(não esqueça que nas linhas que possui "open("file1.txt", O_RDONLY);", colocar o nome do seu arquivo .txt que você quer exibir a linha)
+(não esqueça que nas linhas que possui "open("file1.txt", O_RDONLY);", colocar o nome do seu arquivo `.txt` que você quer exibir a linha)
 
 Agora compile:
 ```gcc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line_bonus.c get_next_line_utils_bonus.c main.c -o gnl_bonus```
