@@ -153,3 +153,165 @@ Checar vazamentos de memória:
 ---
 
 ![Foto projeto concluído](img/gnl_finish.png)
+
+---
+## English
+Here goes the English version
+
+![Foto do projeto](img/get_next_line.png)
+
+# Get_next_line-42  
+
+📌 **get_next_line**
+**get_next_line** is a 42 project that aims to create a function that returns a file line by line from a text file (File descriptor - fd).
+The function reads the file in blocks until a newline character (\n) or the end of the file is reached (when all characters have been read).
+The function should return the complete line, including the \n if it exists.
+
+---
+### 🎯 Objective  
+- Write a function that returns a line read from a file descriptor, following some rules.
+- Improve understanding of string manipulation, macros (`BUFFER_SIZE`), code organization, memory leak correction, and output formatting. 
+- Gain a better understanding of the `read` function.
+
+---
+### 🚀 How to compile
+
+The project is divided into files (if it's the bonus version, the files will have `_bonus` in the name):
+
+`get_next_line.c`
+
+`get_next_line_utils.c`
+
+`get_next_line.h`
+
+---
+
+### 🛠️ Create your Main.c
+
+📌 Here, `main.c` is a test file that you create to call the `get_next_line` function (inside the project folder):
+```
+#include "get_next_line.h"
+#include <stdio.h>
+
+int main(void)
+{
+    int fd = open("test.txt", O_RDONLY);
+    char *line;
+
+    while ((line = get_next_line(fd)))
+    {
+        printf("%s", line);
+        free(line);
+    }
+    close(fd);
+    return (0);
+}
+
+```
+Create any `.txt` file inside the project folder, with any content (don’t forget to press enter at the end to create a newline).
+
+And put the name of your file in quotes in this line in `main.c`:
+
+```int fd = open("test.txt", O_RDONLY);```
+
+To compile, use `gcc` in the terminal with the `BUFFER_SIZE` defined. Example:
+
+```gcc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line.c get_next_line_utils.c main.c -o gnl```
+
+After compilation, run:
+
+```./gnl```
+
+To check for memory leaks:
+
+```valgrind --leak-check=full --show-leak-kinds=all ./gnl```
+
+If everything is correct, it will show:
+
+```All heap blocks were freed -- no leaks are possible```
+
+---
+
+### ✅ Checklist
+
+- Compiles without errors (-Wall -Wextra -Werror)
+
+- Works with different BUFFER_SIZE values
+
+- Reads files of different sizes
+
+- Works with multiple FDs opened at the same time
+
+- No memory leaks
+
+---
+
+### 🎁 Bonus
+
+Now `get_next_line()` must separately track the reading progress of each file descriptor.
+That is, if you switch between fd3, fd4, and fd5, it must remember where it left off in each file, without mixing lines or losing data.
+
+Inside the folder `project_with_bonus` is the bonus version of the project. Create a `main.c` like this:
+```
+#include "get_next_line.h"
+#include <stdio.h>
+
+int main(void)
+{
+    int fd1 = open("file1.txt", O_RDONLY);
+    int fd2 = open("file2.txt", O_RDONLY);
+    char *line1;
+    char *line2;
+
+    if (fd1 < 0 || fd2 < 0)
+        return (1);
+
+    while (1)
+    {
+        line1 = get_next_line(fd1);
+        line2 = get_next_line(fd2);
+
+        if (!line1 && !line2)
+            break;
+        if (line1)
+        {
+            printf("file1: %s", line1);
+            free(line1);
+        }
+        if (line2)
+        {
+            printf("file2: %s", line2);
+            free(line2);
+        }
+    }
+    close(fd1);
+    close(fd2);
+    return (0);
+}
+
+```
+(Don’t forget to replace `"file1.txt"` and `"file2.txt"` with the `.txt` files you want to read line by line.)
+
+Now compile:
+
+```gcc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line_bonus.c get_next_line_utils_bonus.c main.c -o gnl_bonus```
+
+Run normally:
+
+```./gnl_bonus```
+
+Check memory leaks:
+
+```valgrind --leak-check=full --show-leak-kinds=all ./gnl_bonus```
+
+---
+
+📅 **Development period**  
+- Start: 09/02/2025
+- End: 09/24/2025
+
+---
+
+![Foto projeto concluído](img/gnl_finish.png)
+
+
