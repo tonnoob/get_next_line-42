@@ -160,7 +160,7 @@ Here goes the English version
 
 ![Foto do projeto](img/get_next_line.png)
 
-(Reading a line from a dfile descriptor is very tedious.)
+(Reading a line from a file descriptor is very tedious.)
 
 # Get_next_line-42  
 
